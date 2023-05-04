@@ -1,4 +1,6 @@
+import httpStatus from 'http-status'
 import {IUsers, users} from '../entities/users'
+import {ApiError} from '../middleware/error.middleware'
 
 const registerNewUser = (name: string, password: string): IUsers[] => {
 	try {
@@ -20,7 +22,7 @@ const login = (name: string, password: string): string | undefined => {
 	try {
 		const user = users.filter(user => user.name === name)[0]
 		if (password !== user.password) {
-			return
+			throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong password')
 		}
 		return user.name
 	} catch (error) {

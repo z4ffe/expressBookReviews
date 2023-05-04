@@ -1,4 +1,5 @@
 import {Request, Response, NextFunction} from 'express'
+import {ApiError} from '../middleware/error.middleware'
 import userService from '../service/user.service'
 import httpStatus from 'http-status'
 import {userValidate} from '../utils/userValidate'
@@ -9,14 +10,14 @@ const userController = {
 			const {name, password} = req.body
 			const {userExist} = userValidate(name, password)
 			if (req.session!.user) {
-				return res.status(httpStatus.OK).send('Already logged in')
+				throw new ApiError(httpStatus.BAD_REQUEST, 'Already logged in')
 			}
 			if (!userExist) {
-				return res.status(httpStatus.NOT_FOUND).send('User not found')
+				throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
 			}
 			const loginStatus = userService.login(name, password)
 			if (!loginStatus) {
-				res.status(httpStatus.BAD_REQUEST).send('Wrong password')
+				throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong password')
 			}
 			req.session!.user = loginStatus
 			res.status(httpStatus.OK).send('Logged in')
@@ -29,10 +30,10 @@ const userController = {
 			const {name, password} = req.body
 			const {userValidation, userExist} = userValidate(name, password)
 			if (userValidation) {
-				return res.status(httpStatus.BAD_REQUEST).send('User and/or password not provided')
+				throw new ApiError(httpStatus.BAD_REQUEST, 'User and/or password not provided')
 			}
 			if (userExist) {
-				return res.status(httpStatus.BAD_REQUEST).send('User already exist')
+				throw new ApiError(httpStatus.BAD_REQUEST, 'User already exist')
 			}
 			const newUser = userService.registerNewUser(name, password)
 			res.status(httpStatus.OK).send(newUser)

@@ -1,11 +1,12 @@
 import {NextFunction, Request, Response} from 'express'
 import * as httpStatus from 'http-status'
+import {ApiError} from './error.middleware'
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
 		if (req.session!.user) {
 			next()
 		} else {
-			res.status(httpStatus.BAD_REQUEST).send('You are not logged in')
+			throw new ApiError(httpStatus.UNAUTHORIZED, 'Access denied')
 		}
 }
 
