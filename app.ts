@@ -2,6 +2,7 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import sessions from 'express-session'
 import 'dotenv/config.js'
+import {sessionsCfg} from './config/sessions'
 import router from './router'
 
 const app = express()
@@ -13,14 +14,7 @@ app.use(express.urlencoded({extended: true}))
 
 //
 
-const cookieExpireTime = 1000 * 60 * 60;
-
-app.use(sessions({
-	secret: "secret",
-	saveUninitialized: true,
-	cookie: { maxAge: cookieExpireTime },
-	resave: false
-}));
+app.use(sessions(sessionsCfg));
 
 //
 

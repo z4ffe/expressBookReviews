@@ -7,7 +7,7 @@ const userController = {
 	login(req: Request, res: Response, next: NextFunction) {
 		try {
 			const {name, password} = req.body
-			const {userValidation, userExist} = userValidate(name, password)
+			const {userExist} = userValidate(name, password)
 			if (req.session!.user) {
 				return res.status(httpStatus.OK).send('Already logged in')
 			}
@@ -24,7 +24,6 @@ const userController = {
 			next(error)
 		}
 	},
-
 	register(req: Request, res: Response, next: NextFunction) {
 		try {
 			const {name, password} = req.body
@@ -36,11 +35,19 @@ const userController = {
 				return res.status(httpStatus.BAD_REQUEST).send('User already exist')
 			}
 			const newUser = userService.registerNewUser(name, password)
-			res.status(200).send(newUser)
+			res.status(httpStatus.OK).send(newUser)
 		} catch (error) {
 			next(error)
 		}
 	},
+	logout(req: Request, res: Response, next: NextFunction) {
+		try {
+			req.session!.destroy((error) => console.log(error))
+			res.status(httpStatus.OK).send('Logout successful')
+		} catch (error) {
+			next(error)
+		}
+	}
 }
 
 export default userController
