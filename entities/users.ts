@@ -1,11 +1,11 @@
-interface IUsers {
+export interface IUsers {
 	id: number,
 	name: string
 	password: string
 	books: number[]
 }
 
-const users: IUsers[] = [
+export const users: IUsers[] = [
 	{
 		id: 1,
 		name: 'admin',
@@ -13,4 +13,3 @@ const users: IUsers[] = [
 		books: []
 	}
 ]
-
