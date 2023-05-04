@@ -43,7 +43,7 @@ const userController = {
 	},
 	logout(req: Request, res: Response, next: NextFunction) {
 		try {
-			req.session!.destroy((error) => console.log(error))
+			req.session!.destroy((error) => next(error))
 			res.status(httpStatus.OK).send('Logout successful')
 		} catch (error) {
 			next(error)
