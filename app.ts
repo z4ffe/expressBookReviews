@@ -1,25 +1,19 @@
 import express from 'express'
-import session from 'express-session'
+import cookieParser from 'cookie-parser'
 import 'dotenv/config.js'
-const customer_routes = require('./router/auth_users').authenticated
-const genl_routes = require('./router/general').general
+import router from './router'
 
 const app = express()
 
 app.use(express.json())
+app.use(cookieParser())
+app.use(express.urlencoded({extended: true}))
 
-app.use('/customer', session({secret: 'fingerprint_customer', resave: true, saveUninitialized: true}))
+//
 
-app.use('/customer/auth/*', function auth(req: any, res, next) {
-//Write the authenication mechanism here
-})
-
-app.use('/customer', customer_routes)
-
-app.use('/', genl_routes)
+app.use('/api', router)
 
 //
 
 const PORT = process.env.PORT || 5005
-
 app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
