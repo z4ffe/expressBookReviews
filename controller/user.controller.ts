@@ -9,17 +9,17 @@ const userController = {
 		try {
 			const {name, password} = req.body
 			const {userExist} = userValidate(name, password)
-			if (req.session!.user) {
+			if (req.session.authorization) {
 				throw new ApiError(httpStatus.BAD_REQUEST, 'Already logged in')
 			}
 			if (!userExist) {
 				throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
 			}
-			const loginStatus = userService.login(name, password)
-			if (!loginStatus) {
+			const {accessToken, user} = userService.login(name, password)
+			if (!accessToken || !user) {
 				throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong password')
 			}
-			req.session!.user = loginStatus
+			req.session.authorization = {accessToken, user}
 			res.status(httpStatus.OK).send('Logged in')
 		} catch (error) {
 			next(error)
@@ -30,7 +30,7 @@ const userController = {
 			const {name, password} = req.body
 			const {userValidation, userExist} = userValidate(name, password)
 			if (userValidation) {
-				throw new ApiError(httpStatus.BAD_REQUEST, 'User and/or password not provided')
+				throw new ApiError(httpStatus.BAD_REQUEST, 'User and password must be longer than 4 chars')
 			}
 			if (userExist) {
 				throw new ApiError(httpStatus.BAD_REQUEST, 'User already exist')
@@ -43,7 +43,7 @@ const userController = {
 	},
 	logout(req: Request, res: Response, next: NextFunction) {
 		try {
-			req.session!.destroy((error) => next(error))
+			req.session.destroy((error) => next(error))
 			res.status(httpStatus.OK).send('Logout successful')
 		} catch (error) {
 			next(error)

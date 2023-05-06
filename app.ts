@@ -1,7 +1,6 @@
 import express, {Request, Response, NextFunction} from 'express'
 import cookieParser from 'cookie-parser'
 import sessions from 'express-session'
-import bcrypt from 'bcrypt'
 import 'dotenv/config.js'
 import {sessionsCfg} from './config/sessions'
 import {ApiError, convertToApiError, handleError} from './middleware/error.middleware'

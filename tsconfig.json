@@ -25,12 +25,12 @@
     "useUnknownInCatchVariables": true,
     "allowJs": false,
     "typeRoots": [
-      "./global.d.ts",
-      "./node_modules/@types"
+      "./node_modules/@types",
+      "global.d.ts"
     ]
   },
   "include": [
-    "**.ts"
+    "**.ts",
   ],
   "exclude": [
     "node_modules"
