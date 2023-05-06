@@ -21,7 +21,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
 		const verify = jwt.verify(accessToken, `${process.env.SECRET_JWT}`)
 		next()
 	} catch (error) {
-		throw new ApiError(httpStatus.UNAUTHORIZED, 'Access denied')
+		throw new ApiError(httpStatus.UNAUTHORIZED, 'User not authenticated')
 	}
 
 }
