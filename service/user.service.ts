@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import httpStatus from 'http-status'
 import jwt from 'jsonwebtoken'
-import {IUsers, users} from '../entities/users'
+import {IUsers, Roles, users} from '../entities/users'
 import {ApiError} from '../middleware/error.middleware'
 
 const registerNewUser = (name: string, password: string): IUsers[] => {
@@ -12,7 +12,7 @@ const registerNewUser = (name: string, password: string): IUsers[] => {
 			id: lastId + 1,
 			name: name,
 			password: hashedPassword,
-			role: 'user',
+			role: Roles.USER,
 			books: [],
 		})
 		return users
