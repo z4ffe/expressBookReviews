@@ -5,7 +5,7 @@ import httpStatus from 'http-status'
 import {userValidate} from '../utils/userValidate'
 
 const userController = {
-	 async login(req: Request, res: Response, next: NextFunction) {
+	login(req: Request, res: Response, next: NextFunction) {
 		try {
 			const {name, password} = req.body
 			const {userExist} = userValidate(name, password)
@@ -15,7 +15,7 @@ const userController = {
 			if (!userExist) {
 				throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
 			}
-			const loginStatus = await userService.login(name, password)
+			const loginStatus = userService.login(name, password)
 			if (!loginStatus) {
 				throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong password')
 			}
@@ -25,7 +25,7 @@ const userController = {
 			next(error)
 		}
 	},
-	async register(req: Request, res: Response, next: NextFunction) {
+	register(req: Request, res: Response, next: NextFunction) {
 		try {
 			const {name, password} = req.body
 			const {userValidation, userExist} = userValidate(name, password)
@@ -35,7 +35,7 @@ const userController = {
 			if (userExist) {
 				throw new ApiError(httpStatus.BAD_REQUEST, 'User already exist')
 			}
-			const newUser = await userService.registerNewUser(name, password)
+			const newUser = userService.registerNewUser(name, password)
 			res.status(httpStatus.OK).send(newUser)
 		} catch (error) {
 			next(error)
@@ -48,7 +48,7 @@ const userController = {
 		} catch (error) {
 			next(error)
 		}
-	}
+	},
 }
 
 export default userController
