@@ -29,7 +29,7 @@ const login = (name: string, password: string)  => {
 			throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong password')
 		}
 		const accessToken = jwt.sign({password}, `${process.env.SECRET_JWT}`, {expiresIn: 3600})
-		return {user: user.name, accessToken}
+		return {user: user.name, accessToken, role: user.role, id: user.id}
 	} catch (error) {
 		throw error
 	}

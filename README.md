@@ -1,3 +1,8 @@
+<h3 align="center">Simple API for IBM Express/Node Course Final Project</h2>
+<hr>
+<h6 align="center">Fully rewrote on TypeScript</h6>
+<div align="center"><code >npm run dev</code></div>
+<hr>
 <h3>Project Overview: Scenario and Review Criteria</h3>
 
 <h4>Project Overview</h4>

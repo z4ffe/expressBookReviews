@@ -1,16 +1,8 @@
 import {NextFunction, Request, Response} from 'express'
 import * as httpStatus from 'http-status'
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
+import {Roles} from '../entities/users'
 import {ApiError} from './error.middleware'
-
-declare module 'express-session' {
-	interface SessionData {
-		authorization: {
-			accessToken: string
-			user: string
-		}
-	}
-}
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
 	if (!req.session.authorization) {
@@ -23,7 +15,6 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
 	} catch (error) {
 		throw new ApiError(httpStatus.UNAUTHORIZED, 'User not authenticated')
 	}
-
 }
 
 export default auth

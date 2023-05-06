@@ -1,4 +1,5 @@
 import {Request, Response, NextFunction} from 'express'
+import {Roles} from '../entities/users'
 import {ApiError} from '../middleware/error.middleware'
 import userService from '../service/user.service'
 import httpStatus from 'http-status'
@@ -15,11 +16,11 @@ const userController = {
 			if (!userExist) {
 				throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
 			}
-			const {accessToken, user} = userService.login(name, password)
+			const {accessToken, user, role, id} = userService.login(name, password)
 			if (!accessToken || !user) {
 				throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong password')
 			}
-			req.session.authorization = {accessToken, user}
+			req.session.authorization = {accessToken, user, role, id}
 			res.status(httpStatus.OK).send('Logged in')
 		} catch (error) {
 			next(error)
@@ -49,6 +50,17 @@ const userController = {
 			next(error)
 		}
 	},
+}
+
+declare module 'express-session' {
+	interface SessionData {
+		authorization: {
+			accessToken: string
+			id: number
+			user: string
+			role: Roles
+		}
+	}
 }
 
 export default userController

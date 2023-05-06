@@ -6,12 +6,13 @@ export interface IBooks<T> {
 }
 
 interface IReviews {
-	authorId: number
-	body: string
+	userID: number
+	userName: string
+	text: string
 }
 
 export const books: IBooks<IReviews[]>[] = [
-	{id: 1, 'author': 'Chinua Achebe', 'title': 'Things Fall Apart', 'reviews': []},
+	{id: 1, 'author': 'Chinua Achebe', 'title': 'Things Fall Apart', 'reviews': [{userID: 1, userName: 'admin', text: 'Amazing!'}]},
 	{id: 2, 'author': 'Hans Christian Andersen', 'title': 'Fairy tales', 'reviews': []},
 	{id: 3, 'author': 'Dante Alighieri', 'title': 'The Divine Comedy', 'reviews': []},
 	{id: 4, 'author': 'Unknown', 'title': 'The Epic Of Gilgamesh', 'reviews': []},
