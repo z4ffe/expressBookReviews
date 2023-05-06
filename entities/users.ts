@@ -9,7 +9,7 @@ export const users: IUsers[] = [
 	{
 		id: 1,
 		name: 'admin',
-		password: 'pwd123',
+		password: '$2b$10$OrR4q2bIqZGszifyhx6/wu.z3iuPWJAkmRfkhVNtX8rNpI6V/.KK6',
 		books: []
 	}
 ]
