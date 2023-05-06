@@ -19,7 +19,7 @@ const bookController = {
 		}
 		res.status(httpStatus.OK).send(bookList)
 	},
-	getBookByAuthor(req: Request, res: Response, next: NextFunction) {
+	getBooksByAuthor(req: Request, res: Response, next: NextFunction) {
 		const {author} = req.params
 		const bookList = books.filter(book => book.author.toLowerCase() === author.toLowerCase())
 		if (!bookList.length) {
